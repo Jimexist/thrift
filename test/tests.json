@@ -171,6 +171,41 @@
     "workdir": "../lib/java"
   },
   {
+    "name": "kotlin",
+    "join_args": false,
+    "server": {
+      "delay": 15,
+      "command": [
+        "cross-test-server/build/install/cross-test-server/bin/cross-test-server"
+      ],
+      "protocols": [
+        "binary"
+      ]
+    },
+    "client": {
+      "timeout": 13,
+      "command": [
+        "cross-test-client/build/install/cross-test-client/bin/cross-test-client"
+      ],
+      "transports": [
+        "framed"
+      ],
+      "protocols": [
+        "binary"
+      ]
+    },
+    "transports": [
+      "framed"
+    ],
+    "sockets": [
+      "ip"
+    ],
+    "protocols": [
+      "binary"
+    ],
+    "workdir": "../lib/kotlin"
+  },
+  {
     "name": "nodejs",
     "env": {
       "NODE_PATH": "../lib"
