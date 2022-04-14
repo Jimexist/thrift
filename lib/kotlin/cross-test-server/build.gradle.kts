@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.5.31"
-    id("com.ncorti.ktfmt.gradle") version "0.8.0"
+    id("com.ncorti.ktfmt.gradle") version "0.5.0"
     java
     application
 }
@@ -15,7 +15,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-jdk8
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.1")
     // https://mvnrepository.com/artifact/org.apache.thrift/libthrift
-    implementation("org.apache.thrift:libthrift:0.16.0")
+    implementation("org.apache.thrift:libthrift:INCLUDED")
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     implementation("ch.qos.logback:logback-classic:1.3.0-alpha14")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
