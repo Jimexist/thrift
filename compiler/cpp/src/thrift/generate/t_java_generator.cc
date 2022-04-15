@@ -321,7 +321,6 @@ public:
    */
 
   std::string java_package();
-  std::string java_suppressions();
   std::string java_nullable_annotation();
   std::string java_override_annotation();
   std::string type_name(t_type* ttype,
@@ -468,10 +467,6 @@ string t_java_generator::java_package() {
   return "";
 }
 
-string t_java_generator::java_suppressions() {
-  return "@SuppressWarnings({\"cast\", \"rawtypes\", \"serial\", \"unchecked\", \"unused\"})\n";
-}
-
 string t_java_generator::java_nullable_annotation() {
   return "@org.apache.thrift.annotation.Nullable";
 }
@@ -608,7 +603,7 @@ void t_java_generator::generate_consts(std::vector<t_const*> consts) {
   f_consts.open(f_consts_name.c_str());
 
   // Print header
-  f_consts << autogen_comment() << java_package() << java_suppressions();
+  f_consts << autogen_comment() << java_package();
 
   f_consts << "public class " << make_valid_java_identifier(program_name_) << "Constants {" << endl
            << endl;
@@ -825,7 +820,7 @@ void t_java_generator::generate_java_struct(t_struct* tstruct, bool is_exception
   ofstream_with_content_based_conditional_update f_struct;
   f_struct.open(f_struct_name.c_str());
 
-  f_struct << autogen_comment() << java_package() << java_suppressions();
+  f_struct << autogen_comment() << java_package();
 
   generate_java_struct_definition(f_struct, tstruct, is_exception);
   f_struct.close();
@@ -843,7 +838,7 @@ void t_java_generator::generate_java_union(t_struct* tstruct) {
   ofstream_with_content_based_conditional_update f_struct;
   f_struct.open(f_struct_name.c_str());
 
-  f_struct << autogen_comment() << java_package() << java_suppressions();
+  f_struct << autogen_comment() << java_package();
 
   generate_java_doc(f_struct, tstruct);
 
@@ -1287,7 +1282,7 @@ void t_java_generator::generate_tuple_scheme_read_value(ostream& out, t_struct* 
   indent_up();
   indent(out) << "switch (setField) {" << endl;
   indent_up();
-  
+
   const vector<t_field*>& members = tstruct->get_members();
   vector<t_field*>::const_iterator m_iter;
 
@@ -2914,7 +2909,7 @@ void t_java_generator::generate_service(t_service* tservice) {
   string f_service_name = package_dir_ + "/" + make_valid_java_filename(service_name_) + ".java";
   f_service_.open(f_service_name.c_str());
 
-  f_service_ << autogen_comment() << java_package() << java_suppressions();
+  f_service_ << autogen_comment() << java_package();
 
   if (!suppress_generated_annotations_) {
     generate_javax_generated_annotation(f_service_);

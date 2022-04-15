@@ -36,7 +36,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.params.CoreConnectionPNames;
 import org.apache.thrift.TConfiguration;
 
 /**
@@ -159,20 +158,10 @@ public class THttpClient extends TEndpointTransport {
 
   public void setConnectTimeout(int timeout) {
     connectTimeout_ = timeout;
-    if (null != this.client) {
-      // WARNING, this modifies the HttpClient params, this might have an impact elsewhere if the
-      // same HttpClient is used for something else.
-      client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, connectTimeout_);
-    }
   }
 
   public void setReadTimeout(int timeout) {
     readTimeout_ = timeout;
-    if (null != this.client) {
-      // WARNING, this modifies the HttpClient params, this might have an impact elsewhere if the
-      // same HttpClient is used for something else.
-      client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, readTimeout_);
-    }
   }
 
   public void setCustomHeaders(Map<String,String> headers) {
@@ -181,7 +170,7 @@ public class THttpClient extends TEndpointTransport {
 
   public void setCustomHeader(String key, String value) {
     if (customHeaders_ == null) {
-      customHeaders_ = new HashMap<String, String>();
+      customHeaders_ = new HashMap<>();
     }
     customHeaders_.put(key, value);
   }

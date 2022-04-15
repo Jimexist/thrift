@@ -38,6 +38,7 @@ public abstract class TServer {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static abstract class AbstractServerArgs<T extends AbstractServerArgs<T>> {
     final TServerTransport serverTransport;
     TProcessorFactory processorFactory;
