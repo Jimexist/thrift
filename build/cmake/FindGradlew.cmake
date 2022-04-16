@@ -21,7 +21,8 @@
 #  GRADLEW_FOUND - system has Gradlew
 #  GRADLEW_EXECUTABLE - the Gradlew executable
 #
-# It will search the location CMAKE_SOURCE_DIR/lib/java
+# It will search the location CMAKE_SOURCE_DIR/lib/java, the location CMAKE_SOURCE_DIR/lib/kotlin
+# also uses gradle wrapper but it symoblically links to the lib/java one
 
 include(FindPackageHandleStandardArgs)
 

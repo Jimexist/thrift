@@ -206,6 +206,7 @@ if test "$with_java" = "yes";  then
 fi
 AM_CONDITIONAL([WITH_JAVA], [test "$have_java" = "yes"])
 
+AX_THRIFT_LIB(kotlin, [Kotlin], yes)
 if test "$with_kotlin" = "yes";  then
   AX_JAVAC_AND_JAVA
   AC_SUBST(CLASSPATH)
@@ -868,6 +869,7 @@ echo "Building Erlang Library ...... : $have_erlang"
 echo "Building Go Library .......... : $have_go"
 echo "Building Haxe Library ........ : $have_haxe"
 echo "Building Java Library ........ : $have_java"
+echo "Building Kotlin Library ...... : $have_kotlin"
 echo "Building Lua Library ......... : $have_lua"
 echo "Building NodeJS Library ...... : $have_nodejs"
 echo "Building Perl Library ........ : $have_perl"
@@ -943,7 +945,7 @@ if test "$have_java" = "yes" ; then
 fi
 if test "$have_kotlin" = "yes" ; then
   echo
-  echo "Kotlin Test Only Library:"
+  echo "Kotlin (Test Only) Library:"
   echo "   Using gradlew ............. : lib/kotlin/gradlew"
   echo "   Using java ................ : $JAVA"
   echo "   Using javac ............... : $JAVAC"
