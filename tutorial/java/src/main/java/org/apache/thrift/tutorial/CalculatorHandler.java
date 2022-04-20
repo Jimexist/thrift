@@ -1,4 +1,4 @@
-package org.apache.thrift.tutorial;/*
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -16,21 +16,18 @@ package org.apache.thrift.tutorial;/*
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.apache.thrift.TException;
-
-// Generated code
-import tutorial.*;
-import shared.*;
+package org.apache.thrift.tutorial;
 
 import java.util.HashMap;
+import java.util.Map;
+import shared.SharedStruct;
 
-public class CalculatorHandler implements Calculator.Iface {
+public class CalculatorHandler implements tutorial.Calculator.Iface {
 
-  private HashMap<Integer,SharedStruct> log;
+  private final Map<Integer, SharedStruct> log;
 
   public CalculatorHandler() {
-    log = new HashMap<Integer, SharedStruct>();
+    log = new HashMap<>();
   }
 
   public void ping() {
@@ -42,36 +39,37 @@ public class CalculatorHandler implements Calculator.Iface {
     return n1 + n2;
   }
 
-  public int calculate(int logid, Work work) throws InvalidOperation {
-    System.out.println("calculate(" + logid + ", {" + work.op + "," + work.num1 + "," + work.num2 + "})");
+  public int calculate(int logid, tutorial.Work work) throws tutorial.InvalidOperation {
+    System.out.println(
+        "calculate(" + logid + ", {" + work.op + "," + work.num1 + "," + work.num2 + "})");
     int val = 0;
     switch (work.op) {
-    case ADD:
-      val = work.num1 + work.num2;
-      break;
-    case SUBTRACT:
-      val = work.num1 - work.num2;
-      break;
-    case MULTIPLY:
-      val = work.num1 * work.num2;
-      break;
-    case DIVIDE:
-      if (work.num2 == 0) {
-        InvalidOperation io = new InvalidOperation();
+      case ADD:
+        val = work.num1 + work.num2;
+        break;
+      case SUBTRACT:
+        val = work.num1 - work.num2;
+        break;
+      case MULTIPLY:
+        val = work.num1 * work.num2;
+        break;
+      case DIVIDE:
+        if (work.num2 == 0) {
+          tutorial.InvalidOperation io = new tutorial.InvalidOperation();
+          io.whatOp = work.op.getValue();
+          io.why = "Cannot divide by 0";
+          throw io;
+        }
+        val = work.num1 / work.num2;
+        break;
+      default:
+        tutorial.InvalidOperation io = new tutorial.InvalidOperation();
         io.whatOp = work.op.getValue();
-        io.why = "Cannot divide by 0";
+        io.why = "Unknown operation";
         throw io;
-      }
-      val = work.num1 / work.num2;
-      break;
-    default:
-      InvalidOperation io = new InvalidOperation();
-      io.whatOp = work.op.getValue();
-      io.why = "Unknown operation";
-      throw io;
     }
 
-    SharedStruct entry = new SharedStruct();
+    shared.SharedStruct entry = new shared.SharedStruct();
     entry.key = logid;
     entry.value = Integer.toString(val);
     log.put(logid, entry);
@@ -79,7 +77,7 @@ public class CalculatorHandler implements Calculator.Iface {
     return val;
   }
 
-  public SharedStruct getStruct(int key) {
+  public shared.SharedStruct getStruct(int key) {
     System.out.println("getStruct(" + key + ")");
     return log.get(key);
   }
@@ -87,6 +85,4 @@ public class CalculatorHandler implements Calculator.Iface {
   public void zip() {
     System.out.println("zip()");
   }
-
 }
-

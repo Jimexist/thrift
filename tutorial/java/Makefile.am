@@ -19,25 +19,23 @@
 
 export CLASSPATH
 
-# Make sure this doesn't fail if ant is not configured.
 clean-local:
-	ANT=$(ANT) ; if test -z "$$ANT" ; then ANT=: ; fi ; \
-	$$ANT $(ANT_FLAGS) clean
+	$(GRADLE) $(GRADLE_OPTS) clean
 
-all-local:
-	$(ANT) $(ANT_FLAGS) compile
+all-local: $(THRIFT)
+	$(GRADLE) $(GRADLE_OPTS) assemble
 
 check-local: all
-	$(ANT) $(ANT_FLAGS) test
+	$(GRADLE) $(GRADLE_OPTS) check
 
 tutorial: all
-	$(ANT) $(ANT_FLAGS) tutorial
+	$(GRADLE) $(GRADLE_OPTS) build
 
 tutorialserver: all
-	$(ANT) $(ANT_FLAGS) tutorialserver
+	build/scripts/tutorialServer
 
 tutorialclient: all
-	$(ANT) $(ANT_FLAGS) tutorialclient
+	build/scripts/tutorialServer simple
 
 EXTRA_DIST = \
 	build.xml \

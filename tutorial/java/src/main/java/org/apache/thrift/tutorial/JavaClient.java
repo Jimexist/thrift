@@ -18,19 +18,16 @@
  */
 package org.apache.thrift.tutorial;
 
-import tutorial.*;
-import shared.*;
-
 import org.apache.thrift.TException;
-import org.apache.thrift.transport.TSSLTransportFactory;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TSSLTransportFactory;
+import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
 
 public class JavaClient {
-  public static void main(String [] args) {
+  public static void main(String[] args) {
 
     if (args.length != 1) {
       System.out.println("Please enter 'simple' or 'secure'");
@@ -42,8 +39,7 @@ public class JavaClient {
       if (args[0].contains("simple")) {
         transport = new TSocket("localhost", 9090);
         transport.open();
-      }
-      else {
+      } else {
         /*
          * Similar to the server, you can use the parameters to setup client parameters or
          * use the default settings. On the client side, you will need a TrustStore which
@@ -59,8 +55,8 @@ public class JavaClient {
         transport = TSSLTransportFactory.getClientSocket("localhost", 9091, 0, params);
       }
 
-      TProtocol protocol = new  TBinaryProtocol(transport);
-      Calculator.Client client = new Calculator.Client(protocol);
+      TProtocol protocol = new TBinaryProtocol(transport);
+      tutorial.Calculator.Client client = new tutorial.Calculator.Client(protocol);
 
       perform(client);
 
@@ -70,37 +66,36 @@ public class JavaClient {
     }
   }
 
-  private static void perform(Calculator.Client client) throws TException
-  {
+  private static void perform(tutorial.Calculator.Client client) throws TException {
     client.ping();
     System.out.println("ping()");
 
-    int sum = client.add(1,1);
+    int sum = client.add(1, 1);
     System.out.println("1+1=" + sum);
 
-    Work work = new Work();
+    tutorial.Work work = new tutorial.Work();
 
-    work.op = Operation.DIVIDE;
+    work.op = tutorial.Operation.DIVIDE;
     work.num1 = 1;
     work.num2 = 0;
     try {
       int quotient = client.calculate(1, work);
       System.out.println("Whoa we can divide by 0");
-    } catch (InvalidOperation io) {
+    } catch (tutorial.InvalidOperation io) {
       System.out.println("Invalid operation: " + io.why);
     }
 
-    work.op = Operation.SUBTRACT;
+    work.op = tutorial.Operation.SUBTRACT;
     work.num1 = 15;
     work.num2 = 10;
     try {
       int diff = client.calculate(1, work);
       System.out.println("15-10=" + diff);
-    } catch (InvalidOperation io) {
+    } catch (tutorial.InvalidOperation io) {
       System.out.println("Invalid operation: " + io.why);
     }
 
-    SharedStruct log = client.getStruct(1);
+    shared.SharedStruct log = client.getStruct(1);
     System.out.println("Check log: " + log.value);
   }
 }

@@ -1,25 +1,59 @@
 plugins {
     id('java')
     id('application')
+    id "com.diffplug.spotless" version "6.4.2"
+}
+
+spotless {
+    java {
+        target("src/**/*.java")
+        googleJavaFormat()
+    }
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.apache.thrift/libthrift
+    implementation group: 'org.apache.thrift', name: 'libthrift', version: 'INCLUDED'
+    // https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api
+    implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+}
 
+sourceSets {
+    main {
+        java.srcDirs += "$buildDir/generated/gen-java"
+    }
 }
 
 tasks {
+    task createTutorialClient(type: CreateStartScripts) {
+        mainClassName = "org.apache.thrift.tutorial.JavaClient"
+        outputDir file("$buildDir/scripts")
+        applicationName = 'tutorialClient'
+        defaultJvmOpts = []
+    }
+
+    task createTutorialServer(type: CreateStartScripts) {
+        mainClassName = "org.apache.thrift.tutorial.JavaServer"
+        outputDir file("$buildDir/scripts")
+        applicationName = 'tutorialServer'
+        defaultJvmOpts = []
+    }
+
     task compileThrift(type: Exec) {
         workingDir projectDir.absolutePath
-        commandLine.addAll([
-                '../../compiler/cpp/thrift',
-                '-gen',
-                'java',
-                '-o',
-                "$buildDir/gen-java"
-        ])
+        executable('../../compiler/cpp/thrift')
+        args(['-gen', 'java', '-o', "$buildDir/generated", '-r', '../tutorial.thrift'])
+
+        doFirst {
+            file("$buildDir/generated/gen-java").mkdirs()
+        }
     }
 
     tasks.getByName("compileJava") {
         dependsOn("compileThrift")
     }
+}
+
+repositories {
+    mavenCentral()
 }
