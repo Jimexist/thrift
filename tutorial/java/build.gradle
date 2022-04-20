@@ -1,0 +1,25 @@
+plugins {
+    id('java')
+    id('application')
+}
+
+dependencies {
+
+}
+
+tasks {
+    task compileThrift(type: Exec) {
+        workingDir projectDir.absolutePath
+        commandLine.addAll([
+                '../../compiler/cpp/thrift',
+                '-gen',
+                'java',
+                '-o',
+                "$buildDir/gen-java"
+        ])
+    }
+
+    tasks.getByName("compileJava") {
+        dependsOn("compileThrift")
+    }
+}

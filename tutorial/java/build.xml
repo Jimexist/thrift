@@ -61,18 +61,18 @@
   <target name="tutorial" description="Run the tutorial" depends="compile">
     <jar jarfile="tutorial.jar" basedir="${build}"/>
     <parallel>
-      <java classname="JavaServer" fork="true" timeout="10000"
+      <java classname="org.apache.thrift.tutorial.JavaServer" fork="true" timeout="10000"
         classpathref="tutorial.classpath" failonerror="false" output="${build}/log/tutorial.log">
       </java>
       <sequential>
         <sleep seconds="2"/>
         <echo>tutorial client simple:</echo>
-        <java classname="JavaClient"
+        <java classname="org.apache.thrift.tutorial.JavaClient"
           classpathref="tutorial.classpath" failonerror="true">
           <arg line="simple"/>
         </java>
         <echo>tutorial client secure:</echo>
-        <java classname="JavaClient"
+        <java classname="org.apache.thrift.tutorial.JavaClient"
           classpathref="tutorial.classpath" failonerror="true">
           <arg line="secure"/>
         </java>
@@ -89,19 +89,19 @@
 
   <target name="tutorialclient" description="Run a tutorial client" depends="compile">
     <echo>tutorial client simple:</echo>
-    <java classname="JavaClient"
+    <java classname="org.apache.thrift.tutorial.JavaClient"
       classpathref="tutorial.classpath" failonerror="true">
       <arg line="simple"/>
     </java>
     <echo>tutorial client secure:</echo>
-    <java classname="JavaClient"
+    <java classname="org.apache.thrift.tutorial.JavaClient"
       classpathref="tutorial.classpath" failonerror="true">
       <arg line="secure"/>
     </java>
   </target>
 
   <target name="tutorialserver" description="Run a tutorial server" depends="compile">
-      <java classname="JavaServer" fork="true"
+      <java classname="org.apache.thrift.tutorial.JavaServer" fork="true"
         classpathref="tutorial.classpath" failonerror="false" output="${build}/log/tutorial.log">
       </java>
   </target>

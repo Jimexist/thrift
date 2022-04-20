@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.thrift.tutorial;
 
-// Generated code
 import tutorial.*;
 import shared.*;
 
@@ -47,8 +47,8 @@ public class JavaClient {
         /*
          * Similar to the server, you can use the parameters to setup client parameters or
          * use the default settings. On the client side, you will need a TrustStore which
-         * contains the trusted certificate along with the public key. 
-         * For this example it's a self-signed cert. 
+         * contains the trusted certificate along with the public key.
+         * For this example it's a self-signed cert.
          */
         TSSLTransportParameters params = new TSSLTransportParameters();
         params.setTrustStore("../../lib/java/test/.truststore", "thrift", "SunX509", "JKS");
@@ -67,7 +67,7 @@ public class JavaClient {
       transport.close();
     } catch (TException x) {
       x.printStackTrace();
-    } 
+    }
   }
 
   private static void perform(Calculator.Client client) throws TException
